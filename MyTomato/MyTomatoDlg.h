@@ -17,7 +17,9 @@ public:
 
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV 支持
-	BOOL isNotify;
+	BOOL isNotify;	
+	BOOL isTop;		//窗口最前
+	BOOL isRun;		//是否开机运行
 	const int TIME_LENGTH = 25;
 	int  time_left = 0;
 	NOTIFYICONDATAW nid;
@@ -41,6 +43,11 @@ public:
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	afx_msg void OnBnClickedButtonStart();
 	afx_msg void OnBnClickedButton1();
+	afx_msg void OnMenuRun();
+	afx_msg void OnMenuExit();
+	afx_msg void OnMuneTop();
+	afx_msg void OnMenuShow();
+	void InitFromIni();
 };
 /***该系统需要处理的任务栏状态区的消息***/
  

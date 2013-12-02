@@ -129,6 +129,7 @@
   </ItemGroup>
   <ItemGroup>
     <Media Include="..\..\..\Alarm03.wav" />
+    <Media Include="res\Alarm03.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

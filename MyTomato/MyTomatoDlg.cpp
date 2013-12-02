@@ -12,7 +12,7 @@
 #define new DEBUG_NEW
 #endif
 
- 
+
 
 // 用于应用程序“关于”菜单项的 CAboutDlg 对话框
 
@@ -30,6 +30,9 @@ protected:
 	// 实现
 protected:
 	DECLARE_MESSAGE_MAP()
+public:
+	afx_msg void OnMenuShow();
+	afx_msg void OnMuneTop();
 };
 
 CAboutDlg::CAboutDlg() : CDialogEx(CAboutDlg::IDD)
@@ -42,6 +45,8 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
+	ON_COMMAND(ID_MENU_SHOW, &CAboutDlg::OnMenuShow)
+	ON_COMMAND(ID_MUNE_TOP, &CAboutDlg::OnMuneTop)
 END_MESSAGE_MAP()
 
 
@@ -72,6 +77,10 @@ BEGIN_MESSAGE_MAP(CMyTomatoDlg, CDialogEx)
 	ON_WM_TIMER()
 	ON_BN_CLICKED(IDC_BUTTON_START, &CMyTomatoDlg::OnBnClickedButtonStart)
 	ON_BN_CLICKED(IDC_BUTTON1, &CMyTomatoDlg::OnBnClickedButton1)
+	ON_COMMAND(ID_MENU_RUN, &CMyTomatoDlg::OnMenuRun)
+	ON_COMMAND(ID_MENU_EXIT, &CMyTomatoDlg::OnMenuExit)
+	ON_COMMAND(ID_MUNE_TOP, &CMyTomatoDlg::OnMuneTop)
+	ON_COMMAND(ID_MENU_SHOW, &CMyTomatoDlg::OnMenuShow)
 END_MESSAGE_MAP()
 
 
@@ -106,12 +115,15 @@ BOOL CMyTomatoDlg::OnInitDialog()
 	SetIcon(m_hIcon, TRUE);			// 设置大图标
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
+	InitFromIni();
+
 	// TODO:  在此添加额外的初始化代码
 	isNotify = false;
-	CString cp(""); 
-	cp.Format(_T("%d:00"), TIME_LENGTH); 
+	CString cp("");
+	cp.Format(_T("%d:00"), TIME_LENGTH);
 	SetDlgItemText(IDC_STATIC_TIMER, cp);
-	SetWindowPos(&wndTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+	if ( isTop )
+		SetWindowPos(&wndTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 
 	if (!isNotify)
 	{
@@ -194,17 +206,23 @@ LRESULT CMyTomatoDlg::onShowTask(WPARAM wParam, LPARAM lParam)//wParam接收的是图
 	{
 									LPPOINT lpoint = new tagPOINT;
 									::GetCursorPos(lpoint);			//得到鼠标位置
-									CMenu menu;
-									menu.CreatePopupMenu();				//声明一个弹出式菜单			
-									menu.AppendMenu(MF_STRING, WM_DESTROY, _T("关闭"));   //增加菜单项"关闭"，点击则发送消息WM_DESTROY给主窗口（已隐藏），将程序结束。			
-									menu.TrackPopupMenu(TPM_LEFTALIGN, lpoint->x, lpoint->y, this);//确定弹出式菜单的位置			
-									SetForegroundWindow();
+									CMenu menu, *pSubMenu;
+									//menu.CreatePopupMenu();				//声明一个弹出式菜单			
+									//menu.AppendMenu(MF_STRING, WM_DESTROY, _T("关闭"));   //增加菜单项"关闭"，点击则发送消息WM_DESTROY给主窗口（已隐藏），将程序结束。			
+									//menu.TrackPopupMenu(TPM_LEFTALIGN, lpoint->x, lpoint->y, this);//确定弹出式菜单的位置			
+									menu.LoadMenuW(IDR_MENU1);
+									pSubMenu = menu.GetSubMenu(0);
+									
+									pSubMenu->TrackPopupMenu(TPM_LEFTALIGN, lpoint->x, lpoint->y, this);
+
+									//SetForegroundWindow();
 									HMENU hmenu = menu.Detach();   //资源回收
 									menu.DestroyMenu();
 									delete lpoint;
 	}break;
 	case WM_LBUTTONDBLCLK:    //双击左键的处理
 	{
+
 								  this->ShowWindow(SW_SHOW);    //简单的显示主窗口完事儿
 	}break;
 	}
@@ -214,13 +232,13 @@ LRESULT CMyTomatoDlg::onShowTask(WPARAM wParam, LPARAM lParam)//wParam接收的是图
 
 void CMyTomatoDlg::OnBnClickedButtonNotify()
 {
-	
-		// TODO: 在此添加控件通知处理程序代码	
-		
-		//AnimateWindow(1000,AW_HIDE|AW_BLEND);      //可以缓慢消失窗口
-		// KillTimer(0);
-		//ShowWindow(SW_HIDE);//隐藏主窗口
-	 
+
+	// TODO: 在此添加控件通知处理程序代码	
+
+	//AnimateWindow(1000,AW_HIDE|AW_BLEND);      //可以缓慢消失窗口
+	// KillTimer(0);
+	//ShowWindow(SW_HIDE);//隐藏主窗口
+
 }
 
 
@@ -253,16 +271,16 @@ void CMyTomatoDlg::OnTimer(UINT_PTR nIDEvent)
 	// TODO:  在此添加消息处理程序代码和/或调用默认值
 	if (time_left == 0)
 	{
-		KillTimer(1); 
-		PlaySound(MAKEINTRESOURCE(IDR_WAVE1), ::GetModuleHandle(NULL), SND_RESOURCE | SND_ASYNC );
+		KillTimer(1);
+		PlaySound(MAKEINTRESOURCE(IDR_WAVE1), ::GetModuleHandle(NULL), SND_RESOURCE | SND_ASYNC);
 		SetDlgItemText(IDC_BUTTON_START, _T("开始"));
 	}
 	else
 	{
 		time_left--;
 		CString text("");
-		text.Format(_T("%d:%d"), time_left / 60 , time_left % 60);
-		SetDlgItemText(IDC_STATIC_TIMER,text);
+		text.Format(_T("%d:%d"), time_left / 60, time_left % 60);
+		SetDlgItemText(IDC_STATIC_TIMER, text);
 	}
 	CDialogEx::OnTimer(nIDEvent);
 }
@@ -286,12 +304,82 @@ void CMyTomatoDlg::OnBnClickedButtonStart()
 		CWnd::SetTimer(1, 1000, NULL);
 		SetDlgItemText(IDC_BUTTON_START, _T("停止"));
 	}
-	
+
 }
 
 
 void CMyTomatoDlg::OnBnClickedButton1()
 {
 	// TODO:  在此添加控件通知处理程序代码
+ 
+}
+
+
+void CMyTomatoDlg::OnMenuRun()
+{
+	// TODO:  在此添加命令处理程序代码
+	MessageBox(_T("Run"));
+}
+
+
+void CMyTomatoDlg::OnMenuExit()
+{
+	// TODO:  在此添加命令处理程序代码
+	::PostQuitMessage(0);
+}
+
+
+void CAboutDlg::OnMenuShow()
+{
+	// TODO:  在此添加命令处理程序代码
+	 
+	if (IsWindowVisible())
+		ShowWindow(SW_HIDE);
+	else
+		ShowWindow(SW_SHOWNORMAL);
+}
+
+
+void CAboutDlg::OnMuneTop()
+{
+	// TODO:  在此添加命令处理程序代码
+}
+
+
+void CMyTomatoDlg::OnMuneTop()
+{
+	// TODO:  在此添加命令处理程序代码 
+	
+}
+
+
+void CMyTomatoDlg::OnMenuShow()
+{
+	// TODO:  在此添加命令处理程序代码
+	if (IsWindowVisible())
+		ShowWindow(SW_HIDE);
+	else
+		ShowWindow(SW_SHOWNORMAL);
+}
+
+
+
+void CMyTomatoDlg::InitFromIni()
+{ 
+	CString strSection = _T("Setting");
+	CString strSectionKey = _T("isTop");	
+	CString strValue = _T("1");
+	CString strFilePath;
+	wchar_t strBuff[256];
+	GetCurrentDirectoryW(256, strBuff);  //获取当前路径
+	strFilePath.Format(_T("%s//tomato.ini"), strBuff);
+	GetPrivateProfileString(strSection, strSectionKey, NULL, strBuff, 80, strFilePath);
+	strValue = strBuff;
+	if (strValue.IsEmpty())
+	{
+		WritePrivateProfileString(strSection, strSectionKey, _T("1"), strFilePath);
+	}
+	isTop = strValue.Trim().Left(1) == "1" ? true : false; 
+	 
 	
 }

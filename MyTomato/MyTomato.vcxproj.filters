@@ -68,5 +68,8 @@
     <Media Include="..\..\..\Alarm03.wav">
       <Filter>资源文件</Filter>
     </Media>
+    <Media Include="res\Alarm03.wav">
+      <Filter>资源文件</Filter>
+    </Media>
   </ItemGroup>
 </Project>
