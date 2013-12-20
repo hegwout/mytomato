@@ -5,6 +5,7 @@
 #include "stdafx.h"
 #include "MyTomato.h"
 #include "MyTomatoDlg.h"
+#include "DialogAlert.h"
 #include "afxdialogex.h"
 #include "mmsystem.h"
 
@@ -80,7 +81,7 @@ BEGIN_MESSAGE_MAP(CMyTomatoDlg, CDialogEx)
 	ON_COMMAND(ID_MENU_RUN, &CMyTomatoDlg::OnMenuRun)
 	ON_COMMAND(ID_MENU_EXIT, &CMyTomatoDlg::OnMenuExit)
 	ON_COMMAND(ID_MUNE_TOP, &CMyTomatoDlg::OnMuneTop)
-	ON_COMMAND(ID_MENU_SHOW, &CMyTomatoDlg::OnMenuShow)
+	ON_COMMAND(ID_MENU_SHOW, &CMyTomatoDlg::OnMenuShow) 
 END_MESSAGE_MAP()
 
 
@@ -120,7 +121,7 @@ BOOL CMyTomatoDlg::OnInitDialog()
 	// TODO:  在此添加额外的初始化代码
 	isNotify = false;
 	CString cp("");
-	cp.Format(_T("%d:00"), TIME_LENGTH);
+	cp.Format(_T("%02d:00"), TIME_LENGTH);
 	SetDlgItemText(IDC_STATIC_TIMER, cp);
 	if ( isTop )
 		SetWindowPos(&wndTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
@@ -274,12 +275,16 @@ void CMyTomatoDlg::OnTimer(UINT_PTR nIDEvent)
 		KillTimer(1);
 		PlaySound(MAKEINTRESOURCE(IDR_WAVE1), ::GetModuleHandle(NULL), SND_RESOURCE | SND_ASYNC);
 		SetDlgItemText(IDC_BUTTON_START, _T("开始"));
+		//TODO: 弹出提示窗口
+		CDialogAlert  *pDlg = new CDialogAlert;
+		pDlg->Create(IDD_DIALOG_ALERT, this);
+		pDlg->ShowWindow(SW_SHOW);
 	}
 	else
 	{
 		time_left--;
 		CString text("");
-		text.Format(_T("%d:%d"), time_left / 60, time_left % 60);
+		text.Format(_T("%02d:%02d"), time_left / 60, time_left % 60);
 		SetDlgItemText(IDC_STATIC_TIMER, text);
 	}
 	CDialogEx::OnTimer(nIDEvent);
@@ -295,7 +300,7 @@ void CMyTomatoDlg::OnBnClickedButtonStart()
 		SetDlgItemText(IDC_BUTTON_START, _T("开始"));
 		time_left = 0;
 		CString cp("");
-		cp.Format(_T("%d:00"), TIME_LENGTH);
+		cp.Format(_T("%02d:00"), TIME_LENGTH);
 		SetDlgItemText(IDC_STATIC_TIMER, cp);
 	}
 	else
@@ -309,16 +314,58 @@ void CMyTomatoDlg::OnBnClickedButtonStart()
 
 
 void CMyTomatoDlg::OnBnClickedButton1()
-{
+{ 
 	// TODO:  在此添加控件通知处理程序代码
- 
+
 }
 
 
 void CMyTomatoDlg::OnMenuRun()
 {
 	// TODO:  在此添加命令处理程序代码
-	MessageBox(_T("Run"));
+	//添加以下代码
+	HKEY   RegKey;
+	CString   sPath;
+
+	GetModuleFileName(NULL, sPath.GetBufferSetLength(MAX_PATH + 1), MAX_PATH);
+	sPath.ReleaseBuffer();
+	int   nPos;
+
+	nPos = sPath.ReverseFind('\\');
+	sPath = sPath.Left(nPos);
+
+	CString   lpszFile = sPath + "\\MyTomato.exe";//这里加上你要查找的执行文件名称  
+	CFileFind   fFind;
+
+	BOOL   bSuccess;
+	bSuccess = fFind.FindFile(lpszFile);
+
+	fFind.Close();
+	if (bSuccess)
+	{
+		CString   fullName;
+
+		fullName = lpszFile;
+		RegKey = NULL;
+
+		RegOpenKey(HKEY_LOCAL_MACHINE, _T("Software\\Microsoft\\Windows\\CurrentVersion\\Run"), &RegKey);
+
+		RegSetValueEx(RegKey, _T("MyTomato"), 0,
+			REG_SZ,
+			(const unsigned   char*)(LPCTSTR)fullName,
+			fullName.GetLength()
+			);//这里加上你需要在注册表中注册的内容   
+
+		this->UpdateData(FALSE);
+	}
+	else
+	{
+		//theApp.SetMainSkin();  
+		::AfxMessageBox(_T("没找到执行程序，自动运行失败"));
+
+		exit(0);
+	}
+	return ;
 }
 
 
@@ -382,4 +429,17 @@ void CMyTomatoDlg::InitFromIni()
 	isTop = strValue.Trim().Left(1) == "1" ? true : false; 
 	 
 	
+}
+
+
+void CMyTomatoDlg::OnBnClickedButton2()
+{
+	// TODO:  在此添加控件通知处理程序代码
+	//CDialog dlg(IDD_DIALOG_ALERT);
+	//dlg.SetWindowTextW(_T(""));
+	//dlg.DoModal();
+	
+	CDialogAlert  *pDlg = new CDialogAlert;
+	pDlg->Create(IDD_DIALOG_ALERT, this);
+	pDlg->ShowWindow(SW_SHOW);
 }

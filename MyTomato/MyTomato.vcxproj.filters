@@ -34,6 +34,9 @@
     <ClInclude Include="Resource.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="DialogAlert.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyTomato.cpp">
@@ -43,6 +46,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DialogAlert.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -61,6 +67,9 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\MyTomato.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\icon1.ico">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>

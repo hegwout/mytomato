@@ -20,7 +20,7 @@ public:
 	BOOL isNotify;	
 	BOOL isTop;		//窗口最前
 	BOOL isRun;		//是否开机运行
-	const int TIME_LENGTH = 25;
+	const int TIME_LENGTH = 1;
 	int  time_left = 0;
 	NOTIFYICONDATAW nid;
 	
@@ -48,6 +48,7 @@ public:
 	afx_msg void OnMuneTop();
 	afx_msg void OnMenuShow();
 	void InitFromIni();
+	afx_msg void OnBnClickedButton2();
 };
 /***该系统需要处理的任务栏状态区的消息***/
  

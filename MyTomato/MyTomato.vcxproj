@@ -86,6 +86,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -103,6 +104,7 @@
     <Text Include="TODO.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DialogAlert.h" />
     <ClInclude Include="MyTomato.h" />
     <ClInclude Include="MyTomatoDlg.h" />
     <ClInclude Include="Resource.h" />
@@ -110,6 +112,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DialogAlert.cpp" />
     <ClCompile Include="MyTomato.cpp" />
     <ClCompile Include="MyTomatoDlg.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -125,6 +128,7 @@
     <None Include="res\sound1.bin" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\icon1.ico" />
     <Image Include="res\MyTomato.ico" />
   </ItemGroup>
   <ItemGroup>
