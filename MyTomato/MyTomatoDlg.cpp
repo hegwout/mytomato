@@ -9,6 +9,8 @@
 #include "afxdialogex.h"
 #include "mmsystem.h"
 
+#include "SQLiteHelper.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -279,6 +281,9 @@ void CMyTomatoDlg::OnTimer(UINT_PTR nIDEvent)
 		CDialogAlert  *pDlg = new CDialogAlert;
 		pDlg->Create(IDD_DIALOG_ALERT, this);
 		pDlg->ShowWindow(SW_SHOW);
+		
+		
+
 	}
 	else
 	{
@@ -316,8 +321,12 @@ void CMyTomatoDlg::OnBnClickedButtonStart()
 void CMyTomatoDlg::OnBnClickedButton1()
 { 
 	// TODO:  在此添加控件通知处理程序代码
-
+	SQLiteHelper  helper ;
+	CString s = CString("");
+	s.Format(_T("%d"), helper.TestSQL());
+	AfxMessageBox(s);
 }
+
 
 
 void CMyTomatoDlg::OnMenuRun()
@@ -443,3 +452,5 @@ void CMyTomatoDlg::OnBnClickedButton2()
 	pDlg->Create(IDD_DIALOG_ALERT, this);
 	pDlg->ShowWindow(SW_SHOW);
 }
+
+ 

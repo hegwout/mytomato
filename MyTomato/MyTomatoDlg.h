@@ -5,6 +5,7 @@
 #pragma once
 
 
+
 // CMyTomatoDlg 对话框
 class CMyTomatoDlg : public CDialogEx
 {
@@ -49,6 +50,7 @@ public:
 	afx_msg void OnMenuShow();
 	void InitFromIni();
 	afx_msg void OnBnClickedButton2();
+	int SqliteTest();
 };
 /***该系统需要处理的任务栏状态区的消息***/
  

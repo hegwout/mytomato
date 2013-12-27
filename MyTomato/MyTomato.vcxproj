@@ -100,14 +100,12 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-    <Text Include="TODO.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="DialogAlert.h" />
     <ClInclude Include="MyTomato.h" />
     <ClInclude Include="MyTomatoDlg.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="sqlite3\sqlite3.h" />
+    <ClInclude Include="SQLiteHelper.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
@@ -115,6 +113,7 @@
     <ClCompile Include="DialogAlert.cpp" />
     <ClCompile Include="MyTomato.cpp" />
     <ClCompile Include="MyTomatoDlg.cpp" />
+    <ClCompile Include="SQLiteHelper.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -126,6 +125,7 @@
   <ItemGroup>
     <None Include="res\MyTomato.rc2" />
     <None Include="res\sound1.bin" />
+    <None Include="sqlite3\sqlite3.def" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\icon1.ico" />
