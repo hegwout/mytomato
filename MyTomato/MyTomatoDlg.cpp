@@ -10,6 +10,7 @@
 #include "mmsystem.h"
 
 #include "SQLiteHelper.h"
+#include "LogFile.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -321,10 +322,13 @@ void CMyTomatoDlg::OnBnClickedButtonStart()
 void CMyTomatoDlg::OnBnClickedButton1()
 { 
 	// TODO:  在此添加控件通知处理程序代码
-	SQLiteHelper  helper ;
+	/*SQLiteHelper  helper ;
 	CString s = CString("");
 	s.Format(_T("%d"), helper.TestSQL());
-	AfxMessageBox(s);
+	AfxMessageBox(s);*/
+
+	ParserDirectory(L"E:\\work\\a8\\yellowpage");
+	
 }
 
 
@@ -453,4 +457,46 @@ void CMyTomatoDlg::OnBnClickedButton2()
 	pDlg->ShowWindow(SW_SHOW);
 }
 
+
+
+// 便利目录
+int CMyTomatoDlg::ParserDirectory(CString strFoldername)
+{ 
+	
+	CString m_cstrFileList ;
+	CFileFind tempFind;
+	BOOL bFound; //判断是否成功找到文件
+	bFound = tempFind.FindFile(strFoldername + _T("\\*.*") );   //修改" "内内容给限定查找文件类型
+	CString strTmp;   //如果找到的是文件夹 存放文件夹路径
+	
+	while (bFound)      //遍历所有文件
+	{
+		bFound = tempFind.FindNextFile(); //第一次执行FindNextFile是选择到第一个文件，以后执行为选择到下一个文件
+		if (tempFind.IsDots())
+			continue; //如果找到的是返回上层的目录 则结束本次查找
+		//continue;
+	 
+		if (tempFind.IsDirectory())   //找到的是文件夹，则遍历该文件夹下的文件
+		{
+			strTmp = "";
+			strTmp = tempFind.GetFilePath();
+		 
+			///CLogFile::WriteLog(strTmp);
+			//MessageBox(strTmp);
+			ParserDirectory(strTmp );
+		}
+		else
+		{
+			strTmp = tempFind.GetFileName(); //保存文件名，包括后缀名
+			// 在此处添加对找到文件的处理
+			//CLogFile::WriteLog(strTmp + _T("\n"));
+			strTmp = tempFind.GetFilePath();
+			CLogFile::WriteLog(strTmp);
+		}
+		
+	}
+	tempFind.Close();
+	return 0; 
+ 
+}
  

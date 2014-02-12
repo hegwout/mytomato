@@ -100,7 +100,9 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\Downloads\0xmalloc-c-log-0.0.1-1-g772deb2\0xmalloc-c-log-772deb2\src\macro_define.h" />
     <ClInclude Include="DialogAlert.h" />
+    <ClInclude Include="LogFile.h" />
     <ClInclude Include="MyTomato.h" />
     <ClInclude Include="MyTomatoDlg.h" />
     <ClInclude Include="Resource.h" />
@@ -111,6 +113,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DialogAlert.cpp" />
+    <ClCompile Include="LogFile.cpp" />
     <ClCompile Include="MyTomato.cpp" />
     <ClCompile Include="MyTomatoDlg.cpp" />
     <ClCompile Include="SQLiteHelper.cpp" />

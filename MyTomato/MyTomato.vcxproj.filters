@@ -39,6 +39,12 @@
     <ClInclude Include="SQLiteHelper.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="LogFile.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Downloads\0xmalloc-c-log-0.0.1-1-g772deb2\0xmalloc-c-log-772deb2\src\macro_define.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyTomato.cpp">
@@ -54,6 +60,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="SQLiteHelper.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="LogFile.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
