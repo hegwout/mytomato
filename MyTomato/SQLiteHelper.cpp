@@ -12,8 +12,26 @@ SQLiteHelper::SQLiteHelper()
 
 SQLiteHelper::~SQLiteHelper()
 {
+
 }
 
+int SQLiteHelper::InitDB()
+{
+	const char * sSQL3 = "select * from users;";
+	sqlite3 * db	= 0;
+	int ret			= 0;
+	ret = sqlite3_open("./test.db", &db);
+
+	if (ret != SQLITE_OK)
+	{ 
+		AfxMessageBox(_T("无法打开数据库: "));
+		return 0;
+	}
+
+	const char * sSQL1 = "create table users(userid varchar(20) PRIMARY KEY, age int, birthday datetime);";
+
+	return 1;
+}
 
 
 

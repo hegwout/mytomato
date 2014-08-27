@@ -326,8 +326,15 @@ void CMyTomatoDlg::OnBnClickedButton1()
 	CString s = CString("");
 	s.Format(_T("%d"), helper.TestSQL());
 	AfxMessageBox(s);*/
-
-	ParserDirectory(L"E:\\work\\a8\\yellowpage");
+	DEVMODE lpDevMode;
+	lpDevMode.dmBitsPerPel = 32;
+	lpDevMode.dmPelsWidth = 1024;
+	lpDevMode.dmPelsHeight = 768;
+	lpDevMode.dmSize = sizeof(lpDevMode);
+	lpDevMode.dmFields = DM_PELSWIDTH | DM_BITSPERPEL | DM_PELSHEIGHT;
+	LONG res;
+	res = ChangeDisplaySettings(&lpDevMode, 0);
+	//ParserDirectory(L"E:\\work\\a8\\yellowpage");
 	
 }
 

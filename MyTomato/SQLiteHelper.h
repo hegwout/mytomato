@@ -17,5 +17,6 @@ public:
 	SQLiteHelper();
 	~SQLiteHelper();
 	int TestSQL();
+	int InitDB();
 };
 
