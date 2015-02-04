@@ -11,6 +11,7 @@
 
 #include "SQLiteHelper.h"
 #include "LogFile.h"
+#include "DialogView.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -37,6 +38,7 @@ protected:
 public:
 	afx_msg void OnMenuShow();
 	afx_msg void OnMuneTop();
+	afx_msg void OnBnClickedOk();
 };
 
 CAboutDlg::CAboutDlg() : CDialogEx(CAboutDlg::IDD)
@@ -51,6 +53,7 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
 	ON_COMMAND(ID_MENU_SHOW, &CAboutDlg::OnMenuShow)
 	ON_COMMAND(ID_MUNE_TOP, &CAboutDlg::OnMuneTop)
+	ON_BN_CLICKED(IDOK, &CAboutDlg::OnBnClickedOk)
 END_MESSAGE_MAP()
 
 
@@ -67,6 +70,7 @@ CMyTomatoDlg::CMyTomatoDlg(CWnd* pParent /*=NULL*/)
 void CMyTomatoDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_EDIT1, m_Edit);
 }
 
 BEGIN_MESSAGE_MAP(CMyTomatoDlg, CDialogEx)
@@ -85,6 +89,8 @@ BEGIN_MESSAGE_MAP(CMyTomatoDlg, CDialogEx)
 	ON_COMMAND(ID_MENU_EXIT, &CMyTomatoDlg::OnMenuExit)
 	ON_COMMAND(ID_MUNE_TOP, &CMyTomatoDlg::OnMuneTop)
 	ON_COMMAND(ID_MENU_SHOW, &CMyTomatoDlg::OnMenuShow) 
+	ON_COMMAND(ID_MENU_VIEW_ALL, &CMyTomatoDlg::OnMenuViewAll)
+	ON_BN_CLICKED(IDC_BUTTON2, &CMyTomatoDlg::OnClickedButton2)
 END_MESSAGE_MAP()
 
 
@@ -284,7 +290,7 @@ void CMyTomatoDlg::OnTimer(UINT_PTR nIDEvent)
 		pDlg->ShowWindow(SW_SHOW);
 		
 		
-
+		//TODO:更新状态
 	}
 	else
 	{
@@ -299,18 +305,28 @@ void CMyTomatoDlg::OnTimer(UINT_PTR nIDEvent)
 
 void CMyTomatoDlg::OnBnClickedButtonStart()
 {
-	// TODO:  在此添加控件通知处理程序代码
+	//TODO:添加事件
 	if (time_left > 0)
-	{
-		KillTimer(1);
+	{ 
+		//结束
+		CString cp("");  
+		//重启时钟
+		KillTimer(1); 
 		SetDlgItemText(IDC_BUTTON_START, _T("开始"));
-		time_left = 0;
-		CString cp("");
-		cp.Format(_T("%02d:00"), TIME_LENGTH);
+		time_left = 0;		
+		cp = "";
+		cp.Format(_T("%02d:00"), TIME_LENGTH);  
 		SetDlgItemText(IDC_STATIC_TIMER, cp);
 	}
 	else
 	{
+		//开始
+		CString title("");
+		m_Edit.GetWindowTextW(title);
+		SQLiteHelper sqlhelper; 
+		sqlhelper.NewTomato(title.GetString());
+
+		//TODO:更新事件停止时间
 		time_left = TIME_LENGTH * 60;
 		CWnd::SetTimer(1, 1000, NULL);
 		SetDlgItemText(IDC_BUTTON_START, _T("停止"));
@@ -452,17 +468,7 @@ void CMyTomatoDlg::InitFromIni()
 }
 
 
-void CMyTomatoDlg::OnBnClickedButton2()
-{
-	// TODO:  在此添加控件通知处理程序代码
-	//CDialog dlg(IDD_DIALOG_ALERT);
-	//dlg.SetWindowTextW(_T(""));
-	//dlg.DoModal();
-	
-	CDialogAlert  *pDlg = new CDialogAlert;
-	pDlg->Create(IDD_DIALOG_ALERT, this);
-	pDlg->ShowWindow(SW_SHOW);
-}
+
 
 
 
@@ -506,4 +512,45 @@ int CMyTomatoDlg::ParserDirectory(CString strFoldername)
 	return 0; 
  
 }
- 
+
+
+void CMyTomatoDlg::OnMenuViewAll()
+{
+	// TODO: Add your command handler code here
+}
+
+
+void CAboutDlg::OnBnClickedOk()
+{
+	// TODO: Add your control notification handler code here
+	CDialogEx::OnOK();
+}
+
+
+void CMyTomatoDlg::OnBnClickedButton2()
+{
+	// TODO:  在此添加控件通知处理程序代码
+	//CDialog dlg(IDD_DIALOG_ALERT);
+	//dlg.SetWindowTextW(_T(""));
+	//dlg.DoModal();
+
+	
+}
+
+void CMyTomatoDlg::OnClickedButton2()
+{
+	// TODO: Add your control notification handler code here
+
+	//CDialogView  *pDlg = new CDialogView;
+	//pDlg->Create(IDD_DIALOG_VIEW, this);
+	//pDlg->ShowWindow(SW_SHOW);
+	//pDlg->DoModal();
+	//delete pDlg;
+
+
+	CDialogView  pDlg(this)  ;
+	pDlg.DoModal();
+	//pDlg->Create(IDD_DIALOG_VIEW, this);
+	//pDlg->ShowWindow(SW_SHOW);
+
+}

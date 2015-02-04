@@ -102,6 +102,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Downloads\0xmalloc-c-log-0.0.1-1-g772deb2\0xmalloc-c-log-772deb2\src\macro_define.h" />
     <ClInclude Include="DialogAlert.h" />
+    <ClInclude Include="DialogView.h" />
     <ClInclude Include="LogFile.h" />
     <ClInclude Include="MyTomato.h" />
     <ClInclude Include="MyTomatoDlg.h" />
@@ -113,6 +114,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DialogAlert.cpp" />
+    <ClCompile Include="DialogView.cpp" />
     <ClCompile Include="LogFile.cpp" />
     <ClCompile Include="MyTomato.cpp" />
     <ClCompile Include="MyTomatoDlg.cpp" />
@@ -126,6 +128,8 @@
     <ResourceCompile Include="MyTomato.rc" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
     <None Include="res\MyTomato.rc2" />
     <None Include="res\sound1.bin" />
     <None Include="sqlite3\sqlite3.def" />

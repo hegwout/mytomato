@@ -1,4 +1,7 @@
 #pragma once
+#include <string>
+#include <ctime>
+#include <vector>
 
 static int _sql_callback(void * notused, int argc, char ** argv, char ** szColName)
 {
@@ -18,5 +21,11 @@ public:
 	~SQLiteHelper();
 	int TestSQL();
 	int InitDB();
+	int NewTomato(const wchar_t*);
+private:
+	const char* db_name = "tomato.db";
+
+public:
+	std::vector<std::wstring> GetList();
 };
 

@@ -3,6 +3,7 @@
 //
 
 #pragma once
+#include "afxwin.h"
 
 
 
@@ -53,6 +54,9 @@ public:
 	int SqliteTest();
 	// 便利目录
 	int ParserDirectory(CString );
+	afx_msg void OnMenuViewAll();
+	CEdit m_Edit;
+	afx_msg void OnClickedButton2();
 };
 /***该系统需要处理的任务栏状态区的消息***/
  
